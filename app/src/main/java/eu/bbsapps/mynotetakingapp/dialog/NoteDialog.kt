@@ -8,13 +8,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import eu.bbsapps.mynotetakingapp.R
-import eu.bbsapps.mynotetakingapp.databinding.NoteDialogBinding
 import eu.bbsapps.mynotetakingapp.db.Note
 import kotlinx.android.synthetic.main.note_dialog.*
-import kotlinx.android.synthetic.main.note_layout.view.*
 
 class NoteDialog(private val note: Note) : DialogFragment() {
-    
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -92,17 +89,5 @@ class NoteDialog(private val note: Note) : DialogFragment() {
 
         dialog!!.window?.setLayout(width, ViewGroup.LayoutParams.WRAP_CONTENT)
     }
-
-//    private lateinit var binding: NoteDialogBinding
-//
-//    override fun onCreate(savedInstanceState: Bundle?) {
-//        super.onCreate(savedInstanceState)
-//        requestWindowFeature(Window.FEATURE_NO_TITLE)
-//        binding = NoteDialogBinding.inflate(layoutInflater)
-//        setContentView(binding.root)
-//
-//        binding.titleDialogTextView.text = note.noteTitle
-//        binding.textDialogTextView.text = note.noteText
-
 }
 
