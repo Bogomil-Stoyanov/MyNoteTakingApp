@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/mainFragment">
+    <fragment
+        android:id="@+id/mainFragment"
+        android:name="eu.bbsapps.mynotetakingapp.ui.mainFragment.MainFragment"
+        android:label="fragment_main"
+        tools:layout="@layout/fragment_main" >
+        <action
+            android:id="@+id/action_mainFragment_to_addEditFragment"
+            app:destination="@id/addEditFragment" >
+            <argument
+                android:name="noteId"
+                app:argType="long"/>
+        </action>
+    </fragment>
+    <fragment
+        android:id="@+id/addEditFragment"
+        android:name="eu.bbsapps.mynotetakingapp.ui.addEditFragment.AddEditFragment"
+        android:label="fragment_add_edit"
+        tools:layout="@layout/fragment_add_edit" >
+        <action
+            android:id="@+id/action_addEditFragment_to_mainFragment"
+            app:destination="@id/mainFragment" />
+        <argument
+            android:name="noteId"
+            app:argType="long" />
+    </fragment>
+</navigation>

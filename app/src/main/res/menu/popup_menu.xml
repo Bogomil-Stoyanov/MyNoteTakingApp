@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/edit_menu"
+        android:icon="@drawable/ic_check"
+        android:title="Edit" />
+    <item
+        android:id="@+id/delete_menu"
+        android:title="Delete" />
+    <item
+        android:id="@+id/share_menu"
+        android:title="Share" />
+</menu>
