@@ -10,7 +10,7 @@ MyNoteTakingApp uses MVVM, Live Data, Data binding, Room database and Navigation
 License
 -------
 
-Copyright 2020 Bogomil Stoyanov, Inc.
+Copyright 2020 Bogomil Stoyanov
 
 Licensed to the Apache Software Foundation (ASF) under one or more contributor
 license agreements.  See the NOTICE file distributed with this work for
