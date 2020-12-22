@@ -1,6 +1,6 @@
 # MyNoteTakingApp
 
-MyNoteTakingApp uses MVVM, Live Data, Data binding, Room database and Navigation Components
+MyNoteTakingApp uses MVVM, Live Data, Room database and Navigation Components
 
 ## Screenshots:
 ![Screenshot](https://raw.githubusercontent.com/Bogomil-Stoyanov/MyNoteTakingApp/master/screenshot1.png)
