@@ -2,13 +2,12 @@ package eu.bbsapps.mynotetakingapp.ui.mainFragment
 
 import android.app.AlertDialog
 import android.content.ActivityNotFoundException
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.PopupMenu
 import androidx.core.app.ShareCompat
-import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
@@ -24,56 +23,26 @@ import eu.bbsapps.mynotetakingapp.viewmodels.MainViewModel
 import eu.bbsapps.mynotetakingapp.viewmodels.MainViewModelFactory
 
 
-class MainFragment : Fragment() {
+class MainFragment : Fragment(R.layout.fragment_main), NoteItemAdapter.OnItemClickListener {
 
     lateinit var noteItemAdapter: NoteItemAdapter
+    lateinit var viewModel: MainViewModel
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        val binding: FragmentMainBinding = DataBindingUtil.inflate(
-            inflater, R.layout.fragment_main, container, false
-        )
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val binding = FragmentMainBinding.bind(view)
 
         val application = requireNotNull(this.activity).application
         val dataSource = NotesDatabase.getInstance(application).notesDatabaseDao
         val viewModelFactory = MainViewModelFactory(dataSource)
-        val viewModel =
+        viewModel =
             ViewModelProviders.of(this, viewModelFactory).get(MainViewModel::class.java)
 
-        noteItemAdapter = NoteItemAdapter()
-
-        noteItemAdapter.setOnItemClickListener { note ->
-            NoteDialog(note).show(requireFragmentManager(), "Note Dialog")
-        }
-
-        noteItemAdapter.setOnItemLongClickListener { note, view ->
-            val popup = PopupMenu(context, view)
-            popup.menuInflater
-                .inflate(R.menu.popup_menu, popup.menu)
-            popup.setOnMenuItemClickListener {
-                when (it.itemId) {
-                    R.id.edit_menu -> {
-                        editNote(note.noteId)
-                        true
-                    }
-                    R.id.delete_menu -> {
-                        deleteNote(note, viewModel)
-                        true
-                    }
-                    R.id.share_menu -> {
-                        onShare(note)
-                        true
-                    }
-                    else -> true
-                }
-            }
-            popup.show()
-        }
+        noteItemAdapter = NoteItemAdapter(this)
 
         viewModel.notes.observe(viewLifecycleOwner) { notes ->
-            noteItemAdapter.notes = notes
+            noteItemAdapter.submitList(notes)
         }
 
         binding.notesRecyclerView.apply {
@@ -88,8 +57,6 @@ class MainFragment : Fragment() {
         binding.floatingActionButton.setOnClickListener {
             editNote(-1)
         }
-
-        return binding.root
     }
 
     private fun deleteNote(note: Note, viewModel: MainViewModel) {
@@ -105,7 +72,7 @@ class MainFragment : Fragment() {
     }
 
     private fun editNote(noteId: Long) {
-        this.findNavController()
+        findNavController()
             .navigate(
                 MainFragmentDirections.actionMainFragmentToAddEditFragment(
                     noteId
@@ -124,4 +91,34 @@ class MainFragment : Fragment() {
         }
     }
 
+    override fun onItemClick(note: Note) {
+      val dialog = NoteDialog(note,context!!)
+        dialog.dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT));
+            dialog.show(requireFragmentManager(),"Note Dialog")
+
+    }
+
+    override fun onItemLongClick(note: Note,view: View) {
+        val popup = PopupMenu(context, view)
+        popup.menuInflater
+            .inflate(R.menu.popup_menu, popup.menu)
+        popup.setOnMenuItemClickListener {
+            when (it.itemId) {
+                R.id.edit_menu -> {
+                    editNote(note.noteId)
+                    true
+                }
+                R.id.delete_menu -> {
+                    deleteNote(note, viewModel)
+                    true
+                }
+                R.id.share_menu -> {
+                    onShare(note)
+                    true
+                }
+                else -> true
+            }
+        }
+        popup.show()
+    }
 }

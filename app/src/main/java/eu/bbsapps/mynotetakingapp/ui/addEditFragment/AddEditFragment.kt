@@ -1,10 +1,7 @@
 package eu.bbsapps.mynotetakingapp.ui.addEditFragment
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
@@ -14,21 +11,18 @@ import eu.bbsapps.mynotetakingapp.db.Note
 import eu.bbsapps.mynotetakingapp.db.NotesDatabase
 import eu.bbsapps.mynotetakingapp.viewmodels.AddEditViewModel
 import eu.bbsapps.mynotetakingapp.viewmodels.AddEditViewModelFactory
+import androidx.core.content.ContextCompat.getColor
+import eu.bbsapps.mynotetakingapp.Util
 
-
-class AddEditFragment : Fragment() {
+class AddEditFragment : Fragment(R.layout.fragment_add_edit) {
 
     var noteColorSelected: Int = -1
     var noteTitle: String = ""
     var noteText: String = ""
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        val binding: FragmentAddEditBinding = DataBindingUtil.inflate(
-            inflater, R.layout.fragment_add_edit, container, false
-        )
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        val binding = FragmentAddEditBinding.bind(view)
 
         val arguments = AddEditFragmentArgs.fromBundle(arguments!!)
         val id = arguments.noteId
@@ -44,53 +38,7 @@ class AddEditFragment : Fragment() {
                 binding.titleEditText.setText(it?.noteTitle)
                 binding.textEditText.setText(it?.noteText)
                 noteColorSelected = it?.noteColor ?: 0
-                when (it?.noteColor) {
-                    1 -> {
-                        binding.notesColorImageView.setBackgroundColor(resources.getColor(R.color.color1))
-                    }
-                    2 -> {
-                        binding.notesColorImageView.setBackgroundColor(resources.getColor(R.color.color2))
-                    }
-                    3 -> {
-                        binding.notesColorImageView.setBackgroundColor(resources.getColor(R.color.color3))
-                    }
-                    4 -> {
-                        binding.notesColorImageView.setBackgroundColor(resources.getColor(R.color.color4))
-                    }
-                    5 -> {
-                        binding.notesColorImageView.setBackgroundColor(resources.getColor(R.color.color5))
-                    }
-                    6 -> {
-                        binding.notesColorImageView.setBackgroundColor(resources.getColor(R.color.color6))
-                    }
-                    7 -> {
-                        binding.notesColorImageView.setBackgroundColor(resources.getColor(R.color.color7))
-                    }
-                    8 -> {
-                        binding.notesColorImageView.setBackgroundColor(resources.getColor(R.color.color8))
-                    }
-                    9 -> {
-                        binding.notesColorImageView.setBackgroundColor(resources.getColor(R.color.color9))
-                    }
-                    10 -> {
-                        binding.notesColorImageView.setBackgroundColor(resources.getColor(R.color.color10))
-                    }
-                    11 -> {
-                        binding.notesColorImageView.setBackgroundColor(resources.getColor(R.color.color11))
-                    }
-                    12 -> {
-                        binding.notesColorImageView.setBackgroundColor(resources.getColor(R.color.color12))
-                    }
-                    13 -> {
-                        binding.notesColorImageView.setBackgroundColor(resources.getColor(R.color.color13))
-                    }
-                    14 -> {
-                        binding.notesColorImageView.setBackgroundColor(resources.getColor(R.color.color14))
-                    }
-                    15 -> {
-                        binding.notesColorImageView.setBackgroundColor(resources.getColor(R.color.color15))
-                    }
-                }
+                Util().colorCardView( noteColorSelected,binding.noteColorCard,context!!)
             }
         }
 
@@ -120,16 +68,15 @@ class AddEditFragment : Fragment() {
                     println("update")
                 }
 
-
-
                 this.findNavController()
                     .navigate(AddEditFragmentDirections.actionAddEditFragmentToMainFragment())
             }
+
+            binding.titleEditText.clearFocus()
+            binding.textEditText.clearFocus()
         }
 
         setUpColorButtons(binding)
-
-        return binding.root
     }
 
     private fun setUpColorButtons(binding: FragmentAddEditBinding) {
@@ -201,7 +148,7 @@ class AddEditFragment : Fragment() {
                     noteColorSelected = 16
                 }
             }
-            binding.notesColorImageView.setBackgroundColor(resources.getColor(color))
+            binding.noteColorCard.setCardBackgroundColor(getColor(context!!,color))
         }
 
 
