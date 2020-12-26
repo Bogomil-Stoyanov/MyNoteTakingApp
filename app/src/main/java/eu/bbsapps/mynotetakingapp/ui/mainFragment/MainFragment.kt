@@ -92,10 +92,7 @@ class MainFragment : Fragment(R.layout.fragment_main), NoteItemAdapter.OnItemCli
     }
 
     override fun onItemClick(note: Note) {
-      val dialog = NoteDialog(note,context!!)
-        dialog.dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT));
-            dialog.show(requireFragmentManager(),"Note Dialog")
-
+      NoteDialog(note).show(requireFragmentManager(),"Note Dialog")
     }
 
     override fun onItemLongClick(note: Note,view: View) {
